@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run lint)",
+      "Bash(npm run format:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(tree:*)",
+      "Bash(npm install:*)",
+      "Bash(ls:*)",
+      "Bash(pg_isready:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npm run db:seed:*)",
+      "Bash(PGPASSWORD=postgres psql:*)",
+      "Bash(npm run lint:*)",
+      "Bash(find:*)",
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(npm run db:generate:*)",
+      "Bash(npx next info:*)",
+      "Bash(timeout 15 npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(RESEND_API_KEY=\"re_AZeEomS2_FJukwKVKkYuvGo6pPLKstsYA\" node --input-type=module -e \"\nimport { Resend } from ''resend'';\nconst resend = new Resend\\(process.env.RESEND_API_KEY\\);\ntry {\n  const data = await resend.emails.send\\({\n    from: ''InventoryTracker <onboarding@resend.dev>'',\n    to: ''delivered@resend.dev'',\n    subject: ''Test'',\n    html: ''<p>Test</p>'',\n  }\\);\n  console.log\\(''✅ API Key Works! Email ID:'', data.id\\);\n} catch \\(error\\) {\n  console.error\\(''❌ Error:'', error.message\\);\n  if \\(error.response\\) console.error\\(''Response:'', await error.response.text\\(\\)\\);\n}\n\")",
+      "Bash(RESEND_API_KEY=\"re_AZeEomS2_FJukwKVKkYuvGo6pPLKstsYA\" node:*)"
+    ]
+  }
+}

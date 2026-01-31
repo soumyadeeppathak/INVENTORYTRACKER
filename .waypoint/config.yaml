@@ -1,0 +1,33 @@
+# WayPoint Configuration
+# Generated: 2026-01-31T08:39:54.635Z
+
+project:
+  name: inventorytracker
+  type: greenfield
+  track: solo
+  created: 2026-01-31T08:39:54.626Z
+stack:
+  id: nextjs-app-router
+  language: typescript
+  auth:
+    strategy: magic-links
+  database:
+    type: postgresql
+    orm: prisma
+    migrations: prisma migrate
+architecture:
+  primary: ddd
+  modules: []
+deployment:
+  targets:
+    - vercel
+  primary: vercel
+  environments:
+    - development
+    - staging
+    - production
+testing:
+  unit: vitest
+  linter: biome
+  formatter: biome-format
+  typeChecker: tsc

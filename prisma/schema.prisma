@@ -1,0 +1,178 @@
+// Prisma Schema for InventoryTracker MVP
+// Domain-Driven Design with Group as aggregate root
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// AUTH & USER MANAGEMENT
+// ============================================================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+
+  // Relations
+  memberships GroupMembership[]
+  magicLinks  MagicLink[]
+  sessions    Session[]
+  invitesSent GroupInvite[]     @relation("InvitedBy")
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model MagicLink {
+  id        String    @id @default(cuid())
+  token     String    @unique @default(cuid())
+  email     String
+  userId    String?
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([email])
+  @@map("magic_links")
+}
+
+// ============================================================================
+// GROUP AGGREGATE ROOT
+// ============================================================================
+
+model Group {
+  id        String   @id @default(cuid())
+  name      String
+  emoji     String
+  createdAt DateTime @default(now())
+
+  // Relations
+  memberships GroupMembership[]
+  locations   Location[]
+  categories  Category[]
+  invites     GroupInvite[]
+
+  @@map("groups")
+}
+
+model GroupMembership {
+  userId   String
+  groupId  String
+  role     MemberRole @default(MEMBER)
+  joinedAt DateTime   @default(now())
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([userId, groupId])
+  @@index([userId])
+  @@index([groupId])
+  @@map("group_memberships")
+}
+
+model GroupInvite {
+  id         String    @id @default(cuid())
+  token      String    @unique @default(cuid())
+  email      String
+  groupId    String
+  invitedBy  String
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  // Relations
+  group   Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  inviter User  @relation("InvitedBy", fields: [invitedBy], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, email])
+  @@index([token])
+  @@index([email])
+  @@map("group_invites")
+}
+
+enum MemberRole {
+  OWNER
+  MEMBER
+}
+
+// ============================================================================
+// LOCATIONS & ITEMS
+// ============================================================================
+
+model Location {
+  id        String   @id @default(cuid())
+  name      String
+  emoji     String
+  groupId   String
+  createdAt DateTime @default(now())
+
+  // Relations
+  group Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  items Item[]
+
+  @@index([groupId])
+  @@map("locations")
+}
+
+model Item {
+  id         String   @id @default(cuid())
+  name       String
+  emoji      String
+  quantity   Int      @default(1)
+  locationId String
+  categoryId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  location Location  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  // Business constraint: item names must be unique per location
+  @@unique([locationId, name])
+  @@index([locationId])
+  @@index([categoryId])
+  @@map("items")
+}
+
+model Category {
+  id       String  @id @default(cuid())
+  name     String
+  emoji    String
+  isSystem Boolean @default(false)
+  groupId  String?
+
+  // Relations
+  group Group? @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  items Item[]
+
+  // Business constraint: category names must be unique per group (system categories have null groupId)
+  @@unique([groupId, name])
+  @@index([groupId])
+  @@index([isSystem])
+  @@map("categories")
+}

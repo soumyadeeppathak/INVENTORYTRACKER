@@ -1,0 +1,448 @@
+# WayPoint Project Manifest
+#
+# This file is the central registry for your WayPoint project.
+# Claude reads this file first to understand project structure and state.
+#
+# Structure:
+#   - project: Basic project info
+#   - phases: Workflow phases with their agents and I/O patterns
+#   - agents: Agent personas with their capabilities
+#   - documents: Registry of specs, plans, and tasks with summaries
+#
+# Usage:
+#   - waypoint init: Generates this file
+#   - waypoint sync: Updates document registry from file system
+#   - Phase commands: Read this to understand current state
+#
+# Tips:
+#   - Add summaries and keywords when creating new documents
+#   - Update status as documents move through workflow
+#   - Use keywords for quick semantic lookup
+#
+# Generated: 2026-01-31T08:39:54.626Z
+
+waypoint:
+  version: "1.0"
+  generatedAt: 2026-01-31T08:39:54.626Z
+project:
+  name: inventorytracker
+  type: greenfield
+  track: solo
+  rootPath: /workspaces/InventoryTracker
+phases:
+  discover:
+    agent: analyst
+    description: Analyze existing codebase or explore problem space
+    inputs:
+      - user-request
+    outputs:
+      - .waypoint/specs/discovery.md
+  brainstorm:
+    agent: brainstorm-coach
+    description: Facilitate creative brainstorming session
+    inputs:
+      - user-request
+      - discovery.md
+    outputs:
+      - .waypoint/specs/brainstorm-{topic}.md
+  constitute:
+    agent: architect
+    description: Review and customize project constitution
+    inputs:
+      - .waypoint/constitution.md
+    outputs:
+      - .waypoint/constitution.md
+  specify:
+    agent: product-manager
+    description: Create feature specification document
+    inputs:
+      - user-request
+      - discovery.md
+    outputs:
+      - .waypoint/specs/{feature}.md
+    templates:
+      - .waypoint/templates/spec-template.md
+  clarify:
+    agent: analyst
+    description: Resolve specification ambiguities
+    inputs:
+      - .waypoint/specs/{feature}.md
+    outputs:
+      - .waypoint/specs/{feature}.md
+  architect:
+    agent: architect
+    description: Create technical design for specification
+    inputs:
+      - .waypoint/specs/{feature}.md
+      - .waypoint/constitution.md
+    outputs:
+      - .waypoint/plans/{feature}.md
+    templates:
+      - .waypoint/templates/plan-template.md
+  plan:
+    agent: scrum-master
+    description: Break technical design into executable tasks
+    inputs:
+      - .waypoint/plans/{feature}.md
+    outputs:
+      - .waypoint/tasks/{feature}/task-{n}.md
+    templates:
+      - .waypoint/templates/task-template.md
+  implement:
+    agent: developer
+    description: Implement task following project conventions
+    inputs:
+      - .waypoint/tasks/{feature}/task-{n}.md
+      - .waypoint/constitution.md
+    outputs:
+      - source-code
+      - tests
+  review:
+    agent: qa
+    description: Review implementation for quality and compliance
+    inputs:
+      - source-code
+      - tests
+      - .waypoint/tasks/{feature}/task-{n}.md
+    outputs:
+      - approval
+      - feedback
+  extend:
+    agent: module-architect
+    description: Add new stacks, architectures, or modules
+    inputs:
+      - user-request
+    outputs:
+      - module-definition
+agents:
+  analyst:
+    role: analyst
+    file: .claude/commands/waypoint/agents/analyst.md
+    capabilities:
+      - discover
+      - clarify
+      - risks
+      - questions
+      - analyze
+  brainstorm-coach:
+    role: brainstorm-coach
+    file: .claude/commands/waypoint/agents/brainstorm.md
+    capabilities:
+      - session
+      - techniques
+      - random
+      - organize
+      - ideate
+  product-manager:
+    role: product-manager
+    file: .claude/commands/waypoint/agents/pm.md
+    capabilities:
+      - spec
+      - story
+      - prioritize
+      - requirements
+  architect:
+    role: architect
+    file: .claude/commands/waypoint/agents/architect.md
+    capabilities:
+      - design
+      - review
+      - adr
+      - layers
+      - constitute
+  scrum-master:
+    role: scrum-master
+    file: .claude/commands/waypoint/agents/sm.md
+    capabilities:
+      - plan
+      - story
+      - estimate
+      - dependencies
+  developer:
+    role: developer
+    file: .claude/commands/waypoint/agents/dev.md
+    capabilities:
+      - implement
+      - test
+      - lint
+      - refactor
+  qa:
+    role: qa
+    file: .claude/commands/waypoint/agents/qa.md
+    capabilities:
+      - review
+      - security
+      - coverage
+      - checklist
+  module-architect:
+    role: module-architect
+    file: .claude/commands/waypoint/agents/modarch.md
+    capabilities:
+      - stack
+      - architecture
+      - examples
+      - validate
+  ux-designer:
+    role: ux-designer
+    file: .claude/commands/waypoint/agents/ux.md
+    capabilities:
+      - design
+      - experience-principles
+      - user-journey
+      - visual-foundation
+      - component-strategy
+      - a11y-audit
+      - lovable-prompt
+      - v0-prompt
+documents:
+  constitution: .waypoint/constitution.md
+  specs:
+    discovery:
+      path: .waypoint/specs/discovery.md
+      status: complete
+      summary: Personal inventory tracker for small groups across multiple locations. Core entities are Item, Location, Group, and Movement. MVP includes auth (magic links), sharing, quick add/move, and search.
+      keywords:
+        - personal-inventory
+        - location-tracking
+        - small-groups
+        - belongings
+        - sharing
+    brainstorm-delight-features:
+      path: .waypoint/specs/brainstorm-delight-features.md
+      status: complete
+      summary: 14 feature ideas for delightful UX. MVP essentials - groups-first home, item counts, global search, emoji for locations/groups. Quick wins - empty state celebrations, recent items. Key insight - users want visual simplicity, not gamification.
+      keywords:
+        - ux
+        - delight
+        - visual-design
+        - groups-first
+        - emoji
+        - search
+        - mvp-features
+    mvp:
+      path: .waypoint/specs/mvp.md
+      status: complete
+      summary: Full MVP specification. Auth via magic links. Groups contain locations contain items. Features - CRUD for groups/locations/items, move items, global search, invite members. Pre-defined + custom categories. Mobile-first, DDD architecture.
+      keywords:
+        - mvp
+        - specification
+        - auth
+        - groups
+        - locations
+        - items
+        - search
+        - magic-links
+        - functional-requirements
+    mvp-frontend-spec:
+      path: .waypoint/specs/mvp-frontend-spec.md
+      status: complete
+      summary: Complete frontend design spec. Experience principles (Instant Clarity, Effortless Speed, Calm Confidence, Shared Simplicity). Visual foundation with color palette, typography, spacing. User journeys with wireframes. Component strategy. WCAG 2.1 AA accessibility. Responsive design.
+      keywords:
+        - frontend
+        - design
+        - ux
+        - components
+        - accessibility
+        - responsive
+        - tailwind
+        - wireframes
+        - visual-design
+  plans:
+    mvp:
+      path: .waypoint/plans/mvp.md
+      status: complete
+      summary: Full technical architecture for MVP. DDD with Group as aggregate root. Prisma schema with User, Group, Location, Item, Category, Membership, MagicLink, Invite. 6 implementation phases. API contracts for all endpoints. Magic link auth, Resend for email.
+      keywords:
+        - architecture
+        - ddd
+        - prisma
+        - api
+        - domain-entities
+        - magic-links
+        - implementation-phases
+  tasks:
+    mvp:
+      task-01-project-setup:
+        path: .waypoint/tasks/mvp/task-01-project-setup.md
+        status: complete
+        summary: Initialize Next.js 15 project with TypeScript, Tailwind CSS, Biome, Vitest, PWA config. Set up directory structure for DDD architecture.
+        keywords:
+          - setup
+          - nextjs
+          - typescript
+          - tailwind
+          - pwa
+          - biome
+          - vitest
+      task-02-prisma-schema:
+        path: .waypoint/tasks/mvp/task-02-prisma-schema.md
+        status: complete
+        summary: Create Prisma schema with User, Group, GroupMembership, Location, Item, Category, MagicLink, GroupInvite models. Configure PostgreSQL connection.
+        keywords:
+          - prisma
+          - database
+          - schema
+          - postgresql
+      task-03-seed-categories:
+        path: .waypoint/tasks/mvp/task-03-seed-categories.md
+        status: complete
+        summary: Create database seed script for 8 system categories (Electronics, Clothes, Toiletries, Kitchen, Sports, Tools, Documents, Other).
+        keywords:
+          - seed
+          - categories
+          - database
+      task-04-domain-layer:
+        path: .waypoint/tasks/mvp/task-04-domain-layer.md
+        status: complete
+        summary: Implement domain entities (User, Group, Location, Item, Category) and value objects (Email, Emoji, UserId, etc.) following DDD principles.
+        keywords:
+          - domain
+          - entities
+          - value-objects
+          - ddd
+      task-05-repository-ports:
+        path: .waypoint/tasks/mvp/task-05-repository-ports.md
+        status: complete
+        summary: Define repository interfaces (ports) for all domain entities. Pure TypeScript interfaces with no Prisma dependencies.
+        keywords:
+          - repository
+          - ports
+          - interfaces
+          - ddd
+      task-06-prisma-repositories:
+        path: .waypoint/tasks/mvp/task-06-prisma-repositories.md
+        status: complete
+        summary: Implement Prisma repository adapters for all repository interfaces. Map between Prisma models and domain entities.
+        keywords:
+          - prisma
+          - repository
+          - adapters
+          - infrastructure
+      task-07-auth-magic-link:
+        path: .waypoint/tasks/mvp/task-07-auth-magic-link.md
+        status: complete
+        summary: Implement magic link authentication use cases (RequestMagicLink, VerifyMagicLink, SignOut). 15-minute token expiry. Session entity created with 30-day expiry. All tests passing.
+        keywords:
+          - auth
+          - magic-link
+          - use-cases
+          - session
+      task-08-email-service:
+        path: .waypoint/tasks/mvp/task-08-email-service.md
+        status: complete
+        summary: Resend SDK integrated with ResendEmailService. HTML email templates for magic link and group invite. Environment variables documented. All tests passing.
+        keywords:
+          - email
+          - resend
+          - templates
+      task-09-session-middleware:
+        path: .waypoint/tasks/mvp/task-09-session-middleware.md
+        status: complete
+        summary: Session management with HTTP-only cookies. Auth middleware for route protection. Helper functions for getCurrentUser and requireAuth. All tests passing.
+        keywords:
+          - middleware
+          - session
+          - auth
+          - cookies
+      task-10-auth-ui:
+        path: .waypoint/tasks/mvp/task-10-auth-ui.md
+        status: complete
+        summary: Complete authentication UI - login, check-email, verify pages. Server actions for magic link flow. Reusable UI components (Button, Input, Spinner). Mobile-first responsive design. All tests passing.
+        keywords:
+          - auth
+          - ui
+          - pages
+          - server-actions
+      task-11-groups-backend:
+        path: .waypoint/tasks/mvp/task-11-groups-backend.md
+        status: pending
+        summary: Implement group management use cases (CreateGroup, GetUserGroups, GetGroup, LeaveGroup) and API routes.
+        keywords:
+          - groups
+          - use-cases
+          - api
+          - crud
+      task-12-invites-backend:
+        path: .waypoint/tasks/mvp/task-12-invites-backend.md
+        status: pending
+        summary: Implement group invitation use cases (InviteMember, AcceptInvite, RemoveMember). 7-day invite token expiry.
+        keywords:
+          - invites
+          - members
+          - use-cases
+          - api
+      task-13-groups-ui:
+        path: .waypoint/tasks/mvp/task-13-groups-ui.md
+        status: pending
+        summary: Create groups UI - home page with groups grid, create group flow, group settings, member management. Server actions and components.
+        keywords:
+          - groups
+          - ui
+          - pages
+          - components
+      task-14-locations-backend:
+        path: .waypoint/tasks/mvp/task-14-locations-backend.md
+        status: pending
+        summary: Implement location management use cases (CreateLocation, GetGroupLocations, UpdateLocation, DeleteLocation) and API routes. Cascade delete items.
+        keywords:
+          - locations
+          - use-cases
+          - api
+          - crud
+      task-15-locations-ui:
+        path: .waypoint/tasks/mvp/task-15-locations-ui.md
+        status: pending
+        summary: Create locations UI - group view with locations grid, create/edit location, location detail view. Server actions and components.
+        keywords:
+          - locations
+          - ui
+          - pages
+          - components
+      task-16-items-backend:
+        path: .waypoint/tasks/mvp/task-16-items-backend.md
+        status: pending
+        summary: Implement item management use cases (CreateItem, GetLocationItems, UpdateItem, DeleteItem, MoveItem) and API routes. Unique names per location.
+        keywords:
+          - items
+          - use-cases
+          - api
+          - crud
+          - move
+      task-17-items-ui:
+        path: .waypoint/tasks/mvp/task-17-items-ui.md
+        status: pending
+        summary: Create items UI - item list, quick add form, edit modal, move modal, quantity controls, category filter. Optimistic updates.
+        keywords:
+          - items
+          - ui
+          - components
+          - optimistic-updates
+      task-18-search:
+        path: .waypoint/tasks/mvp/task-18-search.md
+        status: pending
+        summary: Implement global search across all user's groups. Search use case, API route, and UI with debounced input and grouped results.
+        keywords:
+          - search
+          - use-cases
+          - api
+          - ui
+      task-19-polish:
+        path: .waypoint/tasks/mvp/task-19-polish.md
+        status: pending
+        summary: Add polish - empty states, loading skeletons, error boundaries, toast notifications, PWA install prompt, offline indicator, haptic feedback.
+        keywords:
+          - polish
+          - empty-states
+          - loading
+          - errors
+          - pwa
+      task-20-testing-deployment:
+        path: .waypoint/tasks/mvp/task-20-testing-deployment.md
+        status: pending
+        summary: Comprehensive testing (unit, integration, E2E), performance optimization, Vercel deployment config, Sentry error monitoring.
+        keywords:
+          - testing
+          - deployment
+          - vercel
+          - sentry
+          - e2e
