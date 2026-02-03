@@ -13,14 +13,14 @@ Create the locations UI: group view with locations list, create/edit location fl
 
 ## Acceptance Criteria
 
-- [ ] Group page displays locations grid
-- [ ] Location cards show emoji, name, item count
-- [ ] Create location form with emoji picker
-- [ ] Edit location inline or via modal
-- [ ] Delete location with confirmation (shows item count warning)
-- [ ] Empty state for no locations
-- [ ] Breadcrumb navigation
-- [ ] Mobile-first responsive design
+- [x] Group page displays locations grid
+- [x] Location cards show emoji, name, item count
+- [x] Create location form with emoji picker
+- [x] Edit location inline or via modal
+- [x] Delete location with confirmation (shows item count warning)
+- [x] Empty state for no locations
+- [x] Breadcrumb navigation
+- [x] Mobile-first responsive design
 
 ## Technical Details
 

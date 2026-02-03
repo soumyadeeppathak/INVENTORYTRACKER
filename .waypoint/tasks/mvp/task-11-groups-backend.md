@@ -13,12 +13,12 @@ Implement group management use cases and API routes.
 
 ## Acceptance Criteria
 
-- [ ] CreateGroup use case creates group with owner membership
-- [ ] GetUserGroups use case returns all groups for a user
-- [ ] GetGroup use case returns group details with locations and members
-- [ ] LeaveGroup use case removes membership (deletes group if last member)
-- [ ] API routes for all group operations
-- [ ] Authorization checks on all routes
+- [x] CreateGroup use case creates group with owner membership
+- [x] GetUserGroups use case returns all groups for a user
+- [x] GetGroup use case returns group details with locations and members
+- [x] LeaveGroup use case removes membership (deletes group if last member)
+- [x] API routes for all group operations
+- [x] Authorization checks on all routes
 
 ## Technical Details
 

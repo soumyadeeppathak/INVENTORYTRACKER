@@ -355,8 +355,8 @@ documents:
           - server-actions
       task-11-groups-backend:
         path: .waypoint/tasks/mvp/task-11-groups-backend.md
-        status: pending
-        summary: Implement group management use cases (CreateGroup, GetUserGroups, GetGroup, LeaveGroup) and API routes.
+        status: complete
+        summary: Implement group management use cases (CreateGroup, GetUserGroups, GetGroup, LeaveGroup) and API routes. All tests passing.
         keywords:
           - groups
           - use-cases
@@ -364,8 +364,8 @@ documents:
           - crud
       task-12-invites-backend:
         path: .waypoint/tasks/mvp/task-12-invites-backend.md
-        status: pending
-        summary: Implement group invitation use cases (InviteMember, AcceptInvite, RemoveMember). 7-day invite token expiry.
+        status: complete
+        summary: Implement group invitation use cases (InviteMember, AcceptInvite, RemoveMember). 7-day invite token expiry. All tests passing.
         keywords:
           - invites
           - members
@@ -373,7 +373,7 @@ documents:
           - api
       task-13-groups-ui:
         path: .waypoint/tasks/mvp/task-13-groups-ui.md
-        status: pending
+        status: complete
         summary: Create groups UI - home page with groups grid, create group flow, group settings, member management. Server actions and components.
         keywords:
           - groups
@@ -382,8 +382,8 @@ documents:
           - components
       task-14-locations-backend:
         path: .waypoint/tasks/mvp/task-14-locations-backend.md
-        status: pending
-        summary: Implement location management use cases (CreateLocation, GetGroupLocations, UpdateLocation, DeleteLocation) and API routes. Cascade delete items.
+        status: complete
+        summary: Location management backend complete. 5 use cases (CreateLocation, GetGroupLocations, GetLocation, UpdateLocation, DeleteLocation). API routes with auth. Delete requires confirmation if items exist. 22 unit tests passing.
         keywords:
           - locations
           - use-cases
@@ -391,8 +391,8 @@ documents:
           - crud
       task-15-locations-ui:
         path: .waypoint/tasks/mvp/task-15-locations-ui.md
-        status: pending
-        summary: Create locations UI - group view with locations grid, create/edit location, location detail view. Server actions and components.
+        status: complete
+        summary: Locations UI complete. Pages for group view with grid, create/edit/view locations. Server actions, breadcrumb nav, delete confirmation with item count warning. Mobile-first responsive grid.
         keywords:
           - locations
           - ui
@@ -400,8 +400,8 @@ documents:
           - components
       task-16-items-backend:
         path: .waypoint/tasks/mvp/task-16-items-backend.md
-        status: pending
-        summary: Implement item management use cases (CreateItem, GetLocationItems, UpdateItem, DeleteItem, MoveItem) and API routes. Unique names per location.
+        status: complete
+        summary: Items backend complete. 5 use cases (CreateItem, GetLocationItems, UpdateItem, DeleteItem, MoveItem). API routes with auth. Unique name validation per location. Move validates same group. 23 unit tests passing.
         keywords:
           - items
           - use-cases

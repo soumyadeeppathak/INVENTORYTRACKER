@@ -13,13 +13,13 @@ Implement item management use cases and API routes.
 
 ## Acceptance Criteria
 
-- [ ] CreateItem use case adds item to location
-- [ ] GetLocationItems use case returns items for a location
-- [ ] UpdateItem use case updates name, emoji, quantity, category
-- [ ] DeleteItem use case removes item
-- [ ] MoveItem use case moves item to different location
-- [ ] Item names unique within location (validation)
-- [ ] Authorization checks on all routes
+- [x] CreateItem use case adds item to location
+- [x] GetLocationItems use case returns items for a location
+- [x] UpdateItem use case updates name, emoji, quantity, category
+- [x] DeleteItem use case removes item
+- [x] MoveItem use case moves item to different location
+- [x] Item names unique within location (validation)
+- [x] Authorization checks on all routes
 
 ## Technical Details
 

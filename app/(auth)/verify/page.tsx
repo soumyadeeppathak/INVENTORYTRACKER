@@ -1,13 +1,14 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Spinner } from '@/src/components/ui/spinner'
 import { Button } from '@/src/components/ui/button'
 import { verifyMagicLink } from '@/src/server/actions/auth-actions'
 
 function VerifyContent() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
   const [error, setError] = useState<string | null>(null)
@@ -24,11 +25,12 @@ function VerifyContent() {
       try {
         const result = await verifyMagicLink(token)
 
-        if (!result.success && result.error) {
+        if (result.success && result.redirectTo) {
+          router.push(result.redirectTo)
+        } else if (result.error) {
           setError(result.error)
           setIsVerifying(false)
         }
-        // On success, the action will redirect to home
       } catch (err) {
         setError('Failed to verify magic link. Please try again.')
         setIsVerifying(false)
@@ -36,7 +38,7 @@ function VerifyContent() {
     }
 
     verify()
-  }, [token])
+  }, [token, router])
 
   if (isVerifying) {
     return (

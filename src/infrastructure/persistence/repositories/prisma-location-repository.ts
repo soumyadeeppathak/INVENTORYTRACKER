@@ -1,5 +1,8 @@
 import type { PrismaClient } from '@prisma/client'
-import type { LocationRepository } from '@/src/application/ports/location-repository'
+import type {
+  LocationRepository,
+  LocationWithItemCount,
+} from '@/src/application/ports/location-repository'
 import type { Location } from '@/src/domain/entities/location'
 import type { GroupId } from '@/src/domain/value-objects/group-id'
 import type { LocationId } from '@/src/domain/value-objects/location-id'
@@ -32,6 +35,22 @@ export class PrismaLocationRepository implements LocationRepository {
       where: { groupId: groupId.toString() },
     })
     return locations.map((location) => locationToDomain(location))
+  }
+
+  async findByGroupIdWithItemCounts(groupId: GroupId): Promise<LocationWithItemCount[]> {
+    const locations = await this.prisma.location.findMany({
+      where: { groupId: groupId.toString() },
+      include: {
+        _count: {
+          select: { items: true },
+        },
+      },
+    })
+
+    return locations.map((loc) => ({
+      location: locationToDomain(loc),
+      itemCount: loc._count.items,
+    }))
   }
 
   async delete(id: LocationId): Promise<void> {

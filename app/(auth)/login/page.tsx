@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Input } from '@/src/components/ui/input'
 import { Button } from '@/src/components/ui/button'
 import { requestMagicLink } from '@/src/server/actions/auth-actions'
 
 export default function LoginPage() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -16,11 +18,12 @@ export default function LoginPage() {
     try {
       const result = await requestMagicLink(formData)
 
-      if (!result.success && result.error) {
+      if (result.success && result.redirectTo) {
+        router.push(result.redirectTo)
+      } else if (result.error) {
         setError(result.error)
         setIsLoading(false)
       }
-      // On success, the action will redirect, so we don't need to handle it
     } catch (err) {
       setError('An unexpected error occurred. Please try again.')
       setIsLoading(false)

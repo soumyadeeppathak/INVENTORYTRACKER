@@ -13,13 +13,13 @@ Implement group invitation use cases: invite member, accept invite, remove membe
 
 ## Acceptance Criteria
 
-- [ ] InviteMember use case sends invite email
-- [ ] AcceptInvite use case adds user to group
-- [ ] RemoveMember use case removes membership (owner only)
-- [ ] Invite tokens expire after 7 days
-- [ ] Existing user joins directly
-- [ ] New user creates account then joins
-- [ ] One active invite per email per group
+- [x] InviteMember use case sends invite email
+- [x] AcceptInvite use case adds user to group
+- [x] RemoveMember use case removes membership (owner only)
+- [x] Invite tokens expire after 7 days
+- [x] Existing user joins directly
+- [x] New user creates account then joins
+- [x] One active invite per email per group
 
 ## Technical Details
 

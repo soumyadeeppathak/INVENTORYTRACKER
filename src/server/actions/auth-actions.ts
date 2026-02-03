@@ -15,19 +15,20 @@ import { db } from '@/lib/db'
 interface ActionResult {
   success: boolean
   error?: string
+  redirectTo?: string
 }
 
 /**
  * Request a magic link to be sent to the provided email
  */
 export async function requestMagicLink(formData: FormData): Promise<ActionResult> {
+  const email = formData.get('email') as string
+
+  if (!email) {
+    return { success: false, error: 'Email is required' }
+  }
+
   try {
-    const email = formData.get('email') as string
-
-    if (!email) {
-      return { success: false, error: 'Email is required' }
-    }
-
     // Get base URL for callback
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
     const callbackUrl = `${baseUrl}/verify`
@@ -40,8 +41,8 @@ export async function requestMagicLink(formData: FormData): Promise<ActionResult
     const useCase = new RequestMagicLinkUseCase(magicLinkRepository, emailService)
     await useCase.execute({ email, callbackUrl })
 
-    // Redirect to check-email page
-    redirect(`/check-email?email=${encodeURIComponent(email)}`)
+    // Return success with redirect URL - client will handle redirect
+    return { success: true, redirectTo: `/check-email?email=${encodeURIComponent(email)}` }
   } catch (error) {
     if (error instanceof DomainError) {
       return { success: false, error: error.message }
@@ -57,11 +58,11 @@ export async function requestMagicLink(formData: FormData): Promise<ActionResult
  * Verify a magic link token and create a session
  */
 export async function verifyMagicLink(token: string): Promise<ActionResult> {
-  try {
-    if (!token) {
-      return { success: false, error: 'Token is required' }
-    }
+  if (!token) {
+    return { success: false, error: 'Token is required' }
+  }
 
+  try {
     // Initialize dependencies
     const magicLinkRepository = new PrismaMagicLinkRepository(db)
     const userRepository = new PrismaUserRepository(db)
@@ -78,8 +79,8 @@ export async function verifyMagicLink(token: string): Promise<ActionResult> {
     // Set session cookie
     await createSessionCookie(result.sessionId)
 
-    // Redirect to home
-    redirect('/')
+    // Return success with redirect URL - client will handle redirect
+    return { success: true, redirectTo: '/' }
   } catch (error) {
     if (error instanceof DomainError) {
       return { success: false, error: error.message }

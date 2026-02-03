@@ -1,10 +1,11 @@
 import type { PrismaClient } from '@prisma/client'
-import type { ItemRepository } from '@/src/application/ports/item-repository'
+import type { ItemRepository, ItemWithCategory } from '@/src/application/ports/item-repository'
 import type { Item } from '@/src/domain/entities/item'
 import type { ItemId } from '@/src/domain/value-objects/item-id'
 import type { LocationId } from '@/src/domain/value-objects/location-id'
 import type { UserId } from '@/src/domain/value-objects/user-id'
 import { itemToDomain, itemToPrisma } from '../mappers/item-mapper'
+import { categoryToDomain } from '../mappers/category-mapper'
 
 export class PrismaItemRepository implements ItemRepository {
   constructor(private prisma: PrismaClient) {}
@@ -37,6 +38,19 @@ export class PrismaItemRepository implements ItemRepository {
       where: { locationId: locationId.toString() },
     })
     return items.map((item) => itemToDomain(item))
+  }
+
+  async findByLocationIdWithCategory(locationId: LocationId): Promise<ItemWithCategory[]> {
+    const items = await this.prisma.item.findMany({
+      where: { locationId: locationId.toString() },
+      include: { category: true },
+      orderBy: { name: 'asc' },
+    })
+
+    return items.map((item) => ({
+      item: itemToDomain(item),
+      category: item.category ? categoryToDomain(item.category) : null,
+    }))
   }
 
   async findByLocationAndName(locationId: LocationId, name: string): Promise<Item | null> {

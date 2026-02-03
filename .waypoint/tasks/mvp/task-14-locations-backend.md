@@ -13,12 +13,12 @@ Implement location management use cases and API routes.
 
 ## Acceptance Criteria
 
-- [ ] CreateLocation use case adds location to group
-- [ ] GetGroupLocations use case returns locations with item counts
-- [ ] UpdateLocation use case updates name and emoji
-- [ ] DeleteLocation use case removes location (cascade items)
-- [ ] Delete requires confirmation if items exist
-- [ ] Authorization checks on all routes
+- [x] CreateLocation use case adds location to group
+- [x] GetGroupLocations use case returns locations with item counts
+- [x] UpdateLocation use case updates name and emoji
+- [x] DeleteLocation use case removes location (cascade items)
+- [x] Delete requires confirmation if items exist
+- [x] Authorization checks on all routes
 
 ## Technical Details
 

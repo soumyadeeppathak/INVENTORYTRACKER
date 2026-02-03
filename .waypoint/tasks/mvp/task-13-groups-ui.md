@@ -13,15 +13,15 @@ Create the groups UI: home page with groups list, create group flow, group setti
 
 ## Acceptance Criteria
 
-- [ ] Home page displays groups grid
-- [ ] Group cards show emoji, name, counts
-- [ ] Create group form with emoji picker
-- [ ] Group settings page with member list
-- [ ] Invite member form
-- [ ] Leave group button with confirmation
-- [ ] Remove member button (owner only)
-- [ ] Empty state for no groups
-- [ ] Mobile-first responsive design
+- [x] Home page displays groups grid
+- [x] Group cards show emoji, name, counts
+- [x] Create group form with emoji picker
+- [x] Group settings page with member list
+- [x] Invite member form
+- [x] Leave group button with confirmation
+- [x] Remove member button (owner only)
+- [x] Empty state for no groups
+- [x] Mobile-first responsive design
 
 ## Technical Details
 
