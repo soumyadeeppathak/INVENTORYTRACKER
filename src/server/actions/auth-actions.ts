@@ -7,7 +7,7 @@ import { SignOutUseCase } from '@/src/application/use-cases/auth/sign-out'
 import { PrismaMagicLinkRepository } from '@/src/infrastructure/persistence/repositories/prisma-magic-link-repository'
 import { PrismaUserRepository } from '@/src/infrastructure/persistence/repositories/prisma-user-repository'
 import { PrismaSessionRepository } from '@/src/infrastructure/persistence/repositories/prisma-session-repository'
-import { ResendEmailService } from '@/src/infrastructure/services/resend-email-service'
+import { createEmailService } from '@/src/infrastructure/services/email-service-factory'
 import { createSessionCookie, clearSessionCookie, getSessionId } from '@/lib/auth'
 import { DomainError } from '@/src/domain/errors/domain-error'
 import { db } from '@/lib/db'
@@ -35,7 +35,7 @@ export async function requestMagicLink(formData: FormData): Promise<ActionResult
 
     // Initialize dependencies
     const magicLinkRepository = new PrismaMagicLinkRepository(db)
-    const emailService = new ResendEmailService()
+    const emailService = createEmailService()
 
     // Execute use case
     const useCase = new RequestMagicLinkUseCase(magicLinkRepository, emailService)

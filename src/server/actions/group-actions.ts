@@ -11,7 +11,7 @@ import { RemoveMemberUseCase } from '@/src/application/use-cases/groups/remove-m
 import { PrismaGroupRepository } from '@/src/infrastructure/persistence/repositories/prisma-group-repository'
 import { PrismaUserRepository } from '@/src/infrastructure/persistence/repositories/prisma-user-repository'
 import { PrismaInviteRepository } from '@/src/infrastructure/persistence/repositories/prisma-invite-repository'
-import { ResendEmailService } from '@/src/infrastructure/services/resend-email-service'
+import { createEmailService } from '@/src/infrastructure/services/email-service-factory'
 import { DomainError } from '@/src/domain/errors/domain-error'
 
 interface ActionResult {
@@ -64,7 +64,7 @@ export async function inviteMember(groupId: string, formData: FormData): Promise
     const groupRepository = new PrismaGroupRepository(db)
     const userRepository = new PrismaUserRepository(db)
     const inviteRepository = new PrismaInviteRepository(db)
-    const emailService = new ResendEmailService()
+    const emailService = createEmailService()
 
     const useCase = new InviteMemberUseCase(
       groupRepository,

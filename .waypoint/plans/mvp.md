@@ -111,7 +111,10 @@ src/
 │   │       ├── item-mapper.ts
 │   │       └── category-mapper.ts
 │   ├── services/
-│   │   └── resend-email-service.ts  # Email via Resend
+│   ├── services/
+│   │   ├── email-service-factory.ts # Factory for email service
+│   │   ├── resend-email-service.ts  # Email via Resend
+│   │   └── brevo-email-service.ts   # Email via Brevo (Sendinblue)
 │   └── auth/
 │       └── session.ts           # Session management
 │

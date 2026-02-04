@@ -330,10 +330,12 @@ documents:
       task-08-email-service:
         path: .waypoint/tasks/mvp/task-08-email-service.md
         status: complete
-        summary: Resend SDK integrated with ResendEmailService. HTML email templates for magic link and group invite. Environment variables documented. All tests passing.
+        summary: Implemented email service with factory pattern supporting both Resend and Brevo. Brevo set as default provider due to Resend limitations. Environment variables updated. All tests passing.
         keywords:
           - email
           - resend
+          - brevo
+          - factory
           - templates
       task-09-session-middleware:
         path: .waypoint/tasks/mvp/task-09-session-middleware.md

@@ -5,13 +5,14 @@ import type { GroupId } from '@/src/domain/value-objects/group-id'
 import { groupInviteToDomain, groupInviteToPrisma } from '../mappers/group-invite-mapper'
 
 export class PrismaInviteRepository implements InviteRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaClient) { }
 
   async save(invite: GroupInvite): Promise<void> {
     const data = groupInviteToPrisma(invite)
     await this.prisma.groupInvite.upsert({
       where: { id: invite.id },
       update: {
+        token: data.token,
         acceptedAt: data.acceptedAt,
         expiresAt: data.expiresAt,
       },

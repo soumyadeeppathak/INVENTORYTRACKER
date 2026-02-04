@@ -1,4 +1,4 @@
-# Task 08: Email Service - Resend Integration
+# Task 08: Email Service - Resend & Brevo Integration
 
 **Phase**: 2 - Authentication
 **Priority**: Critical
@@ -9,86 +9,89 @@
 
 ## Objective
 
-Implement email service using Resend for sending magic links and group invites.
+Implement email service using a factory pattern to support both Resend and Brevo (Sendinblue) for sending magic links and group invites. This allows flexibility if one provider has limitations (e.g., Resend free tier limits).
 
 ## Acceptance Criteria
 
-- [ ] Resend SDK integrated
-- [ ] EmailService interface implemented
-- [ ] Magic link email template created
-- [ ] Group invite email template created
-- [ ] Emails send successfully in development
-- [ ] Environment variable for API key
+- [x] Resend SDK integrated
+- [x] Brevo SDK integrated
+- [x] EmailService interface implemented
+- [x] Factory pattern to switch providers
+- [x] Magic link email template created
+- [x] Group invite email template created
+- [x] Emails send successfully in development
+- [x] Environment variable for API key and provider selection
 
 ## Technical Details
 
-### Email Service Implementation
+### Email Service Factory
 
 ```typescript
-// ResendEmailService implements EmailService
-import { Resend } from 'resend'
+// src/infrastructure/services/email-service-factory.ts
+import type { EmailService } from '@/src/application/ports/email-service'
+import { ResendEmailService } from './resend-email-service'
+import { BrevoEmailService } from './brevo-email-service'
 
-export class ResendEmailService implements EmailService {
-  private resend: Resend
+export function createEmailService(): EmailService {
+    const provider = process.env.EMAIL_PROVIDER || 'resend'
 
-  constructor() {
-    this.resend = new Resend(process.env.RESEND_API_KEY)
-  }
+    switch (provider.toLowerCase()) {
+        case 'brevo':
+            return new BrevoEmailService()
+        case 'resend':
+        default:
+            return new ResendEmailService()
+    }
+}
+```
 
-  async sendMagicLink(email: string, link: string): Promise<void> {
-    await this.resend.emails.send({
-      from: 'InventoryTracker <noreply@yourdomain.com>',
-      to: email,
-      subject: 'Sign in to InventoryTracker',
-      html: `
-        <h1>Sign in to InventoryTracker</h1>
-        <p>Click the link below to sign in. This link expires in 15 minutes.</p>
-        <a href="${link}">Sign in</a>
-        <p>If you didn't request this, you can safely ignore this email.</p>
-      `,
-    })
-  }
+### Brevo Implementation
 
-  async sendGroupInvite(
-    email: string,
-    inviterName: string,
-    groupName: string,
-    link: string
-  ): Promise<void> {
-    await this.resend.emails.send({
-      from: 'InventoryTracker <noreply@yourdomain.com>',
-      to: email,
-      subject: `${inviterName} invited you to "${groupName}"`,
-      html: `
-        <h1>You've been invited!</h1>
-        <p>${inviterName} invited you to join "${groupName}" on InventoryTracker.</p>
-        <a href="${link}">Accept Invite</a>
-        <p>This invite expires in 7 days.</p>
-      `,
-    })
-  }
+```typescript
+// BrevoEmailService implements EmailService
+import * as brevo from '@getbrevo/brevo'
+
+export class BrevoEmailService implements EmailService {
+    private apiInstance: brevo.TransactionalEmailsApi
+
+    constructor() {
+        // Setup API instance with key
+    }
+    
+    // Implement sendMagicLink and sendGroupInvite using sendTransacEmail
 }
 ```
 
 ### Environment Setup
 
 ```
-RESEND_API_KEY=re_xxxxxxxxxxxxx
-EMAIL_FROM=noreply@yourdomain.com
+# Email Provider (choose one: "resend" or "brevo")
+EMAIL_PROVIDER="brevo"
+
+# Brevo
+BREVO_API_KEY=xkeysib-xxxxxxxx...
+
+# Resend
+RESEND_API_KEY=re_xxxxxxxx...
+
+# Common
+EMAIL_FROM="InventoryTracker <noreply@inventorytracker.app>"
 ```
 
-## Files to Create
+## Files Created
 
 ```
 src/infrastructure/services/
-└── resend-email-service.ts
+├── email-service-factory.ts
+├── resend-email-service.ts
+└── brevo-email-service.ts
 ```
 
 ## Verification
 
 ```bash
-# Manual test: send test email
-npm run test -- email/       # Email service tests pass (mocked)
+# Test specific provider via script (created as needed)
+npx tsx scripts/test-email.ts
 ```
 
 ---

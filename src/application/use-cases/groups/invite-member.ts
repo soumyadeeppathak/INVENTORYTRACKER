@@ -25,7 +25,7 @@ export class InviteMemberUseCase {
     private readonly userRepository: UserRepository,
     private readonly inviteRepository: InviteRepository,
     private readonly emailService: EmailService,
-  ) {}
+  ) { }
 
   async execute(input: InviteMemberInput): Promise<InviteMemberOutput> {
     const inviterId = UserId.create(input.inviterId)
@@ -57,12 +57,24 @@ export class InviteMemberUseCase {
 
     let invite: GroupInvite
     if (existingInvite && !existingInvite.isAccepted) {
-      // Update existing invite with new token and expiry
-      invite = GroupInvite.create({
+      // Refresh existing invite with new token and expiry, keeping the same ID
+      // This ensures the upsert finds the existing record by ID
+      const refreshedInvite = GroupInvite.create({
         email: email.toString(),
         groupId,
         invitedBy: inviterId,
         expiresInDays: 7,
+      })
+      // Reconstitute with the existing ID but new token/expiry
+      invite = GroupInvite.reconstitute({
+        id: existingInvite.id,
+        token: refreshedInvite.token,
+        email: email.toString(),
+        groupId,
+        invitedBy: inviterId,
+        expiresAt: refreshedInvite.expiresAt,
+        acceptedAt: null,
+        createdAt: existingInvite.createdAt,
       })
     } else {
       // Create new invite
