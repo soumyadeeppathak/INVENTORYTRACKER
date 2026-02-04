@@ -92,12 +92,20 @@ export class InviteMemberUseCase {
     // Construct invite URL
     const inviteUrl = `${input.baseUrl}/invite/${invite.token}`
 
-    // Send invite email (don't await to avoid timing attacks)
-    this.emailService
-      .sendGroupInvite(email.toString(), inviter.name, group.name, inviteUrl)
-      .catch((error) => {
-        console.error('Failed to send group invite email:', error)
-      })
+    // Send invite email
+    // Note: We MUST await this in serverless environments (Vercel) or the process
+    // will be frozen/killed before the network request completes.
+    try {
+      await this.emailService.sendGroupInvite(
+        email.toString(),
+        inviter.name,
+        group.name,
+        inviteUrl,
+      )
+    } catch (error) {
+      console.error('Failed to send group invite email:', error)
+      // We still return true because the invite was saved in DB
+    }
 
     return { success: true }
   }

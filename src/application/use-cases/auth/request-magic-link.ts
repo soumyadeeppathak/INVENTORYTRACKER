@@ -16,7 +16,7 @@ export class RequestMagicLinkUseCase {
   constructor(
     private magicLinkRepository: MagicLinkRepository,
     private emailService: EmailService,
-  ) {}
+  ) { }
 
   async execute(input: RequestMagicLinkInput): Promise<RequestMagicLinkOutput> {
     // Validate and normalize email
@@ -34,11 +34,16 @@ export class RequestMagicLinkUseCase {
     // Construct link URL
     const linkUrl = `${input.callbackUrl}?token=${magicLink.token}`
 
-    // Send email (don't await to avoid revealing timing)
-    this.emailService.sendMagicLink(email.toString(), linkUrl).catch((error) => {
+    // Send email
+    // Note: We MUST await this in serverless environments (Vercel) to ensure
+    // the request completes before the lambda is frozen.
+    try {
+      await this.emailService.sendMagicLink(email.toString(), linkUrl)
+    } catch (error) {
       // Log error but don't throw - we don't want to reveal if email is valid
+      // or if there was an infrastructure error
       console.error('Failed to send magic link email:', error)
-    })
+    }
 
     // Always return success to avoid user enumeration
     return { success: true }
