@@ -14,8 +14,11 @@ import { DomainError } from '@/src/domain/errors/domain-error'
  * If not authenticated, a new user is created from the invite email.
  */
 export async function POST(request: Request, { params }: { params: Promise<{ token: string }> }) {
+  console.log('[AcceptInvite] Starting accept invite request')
+
   try {
     const { token } = await params
+    console.log('[AcceptInvite] Token:', token ? `${token.substring(0, 10)}...` : 'MISSING')
 
     if (!token) {
       return NextResponse.json({ error: 'Invite token is required' }, { status: 400 })
@@ -23,6 +26,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
 
     // Get current user if authenticated (optional for this route)
     const currentUser = await getCurrentUser()
+    console.log('[AcceptInvite] Current user:', currentUser?.id.toString() || 'NOT AUTHENTICATED')
 
     const inviteRepository = new PrismaInviteRepository(db)
     const userRepository = new PrismaUserRepository(db)
@@ -35,13 +39,17 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
       userId: currentUser?.id.toString(),
     })
 
+    console.log('[AcceptInvite] Success! GroupId:', result.groupId)
     return NextResponse.json(result)
   } catch (error) {
     if (error instanceof DomainError) {
+      console.log('[AcceptInvite] Domain error:', error.message)
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    console.error('Error accepting invite:', error)
-    return NextResponse.json({ error: 'Failed to accept invite' }, { status: 500 })
+    console.error('[AcceptInvite] Unexpected error:', error)
+    // Include more error details in development
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    return NextResponse.json({ error: 'Failed to accept invite', details: errorMessage }, { status: 500 })
   }
 }

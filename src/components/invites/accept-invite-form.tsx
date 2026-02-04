@@ -18,6 +18,8 @@ export function AcceptInviteForm({ token, groupName }: AcceptInviteFormProps) {
         setError(null)
 
         try {
+            console.log('[AcceptInviteForm] Calling API with token:', token.substring(0, 10) + '...')
+
             const response = await fetch(`/api/invites/${token}`, {
                 method: 'POST',
                 headers: {
@@ -25,10 +27,23 @@ export function AcceptInviteForm({ token, groupName }: AcceptInviteFormProps) {
                 },
             })
 
-            const data = await response.json()
+            console.log('[AcceptInviteForm] Response status:', response.status)
+
+            // Try to parse response body
+            let data
+            try {
+                data = await response.json()
+                console.log('[AcceptInviteForm] Response data:', data)
+            } catch (parseError) {
+                console.error('[AcceptInviteForm] Failed to parse response:', parseError)
+                setError(`Server error (${response.status}): Could not parse response`)
+                setIsLoading(false)
+                return
+            }
 
             if (!response.ok) {
-                setError(data.error || 'Failed to accept invite')
+                const errorMsg = data.details ? `${data.error}: ${data.details}` : data.error
+                setError(errorMsg || 'Failed to accept invite')
                 setIsLoading(false)
                 return
             }
@@ -36,8 +51,9 @@ export function AcceptInviteForm({ token, groupName }: AcceptInviteFormProps) {
             // Redirect to the group page
             router.push(`/groups/${data.groupId}`)
         } catch (err) {
-            console.error('Error accepting invite:', err)
-            setError('Something went wrong. Please try again.')
+            console.error('[AcceptInviteForm] Network error:', err)
+            const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+            setError(`Network error: ${errorMessage}`)
             setIsLoading(false)
         }
     }
