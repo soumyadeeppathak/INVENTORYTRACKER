@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { ToastProvider } from '@/src/components/ui/toast'
+import { OfflineIndicator } from '@/src/components/pwa/offline-indicator'
+import { InstallPrompt } from '@/src/components/pwa/install-prompt'
+import { ServiceWorkerUpdate } from '@/src/components/pwa/service-worker-update'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,7 +38,15 @@ export default function RootLayout({
         <link rel="icon" href="/icons/icon-192.svg" />
         <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ToastProvider>
+          <OfflineIndicator />
+          {children}
+          <InstallPrompt />
+          <ServiceWorkerUpdate />
+        </ToastProvider>
+      </body>
     </html>
   )
 }
+

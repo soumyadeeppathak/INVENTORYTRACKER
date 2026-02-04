@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { GetUserGroupsUseCase } from '@/src/application/use-cases/groups/get-user-groups'
 import { PrismaGroupRepository } from '@/src/infrastructure/persistence/repositories/prisma-group-repository'
 import { GroupList } from '@/src/components/groups/group-list'
+import { SearchOverlay } from '@/src/components/search/search-overlay'
 
 export default async function HomePage() {
   const user = await requireAuth()
@@ -13,8 +14,14 @@ export default async function HomePage() {
 
   return (
     <div>
+      {/* Search bar */}
+      <div className="mb-6">
+        <SearchOverlay />
+      </div>
+
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Groups</h1>
       <GroupList groups={groups} />
     </div>
   )
 }
+

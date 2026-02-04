@@ -90,9 +90,9 @@ function ToastItem({ toast }: { toast: Toast }) {
   }
 
   const colors = {
-    success: 'bg-gray-900 text-white',
+    success: 'bg-green-600 text-white',
     error: 'bg-red-600 text-white',
-    info: 'bg-gray-900 text-white',
+    info: 'bg-blue-600 text-white',
   }
 
   return (

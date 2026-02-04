@@ -1,5 +1,5 @@
 import type { PrismaClient } from '@prisma/client'
-import type { ItemRepository, ItemWithCategory } from '@/src/application/ports/item-repository'
+import type { ItemRepository, ItemWithCategory, SearchResultItem } from '@/src/application/ports/item-repository'
 import type { Item } from '@/src/domain/entities/item'
 import type { ItemId } from '@/src/domain/value-objects/item-id'
 import type { LocationId } from '@/src/domain/value-objects/location-id'
@@ -8,7 +8,7 @@ import { itemToDomain, itemToPrisma } from '../mappers/item-mapper'
 import { categoryToDomain } from '../mappers/category-mapper'
 
 export class PrismaItemRepository implements ItemRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaClient) { }
 
   async save(item: Item): Promise<void> {
     const data = itemToPrisma(item)
@@ -92,4 +92,53 @@ export class PrismaItemRepository implements ItemRepository {
     })
     return items.map((item) => itemToDomain(item))
   }
+
+  async searchWithContext(userId: UserId, query: string, limit = 20): Promise<SearchResultItem[]> {
+    const items = await this.prisma.item.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+        location: {
+          group: {
+            memberships: {
+              some: {
+                userId: userId.toString(),
+              },
+            },
+          },
+        },
+      },
+      include: {
+        location: {
+          include: {
+            group: true,
+          },
+        },
+      },
+      orderBy: [
+        { name: 'asc' },
+      ],
+      take: limit,
+    })
+
+    return items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      emoji: item.emoji,
+      quantity: item.quantity,
+      location: {
+        id: item.location.id,
+        name: item.location.name,
+        emoji: item.location.emoji,
+      },
+      group: {
+        id: item.location.group.id,
+        name: item.location.group.name,
+        emoji: item.location.group.emoji,
+      },
+    }))
+  }
 }
+

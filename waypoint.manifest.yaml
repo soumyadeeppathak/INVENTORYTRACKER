@@ -410,8 +410,8 @@ documents:
           - move
       task-17-items-ui:
         path: .waypoint/tasks/mvp/task-17-items-ui.md
-        status: pending
-        summary: Create items UI - item list, quick add form, edit modal, move modal, quantity controls, category filter. Optimistic updates.
+        status: complete
+        summary: Items UI complete. 7 components created - ItemList, ItemRow, QuickAddForm, EditItemModal, MoveItemModal, QuantityControl, CategoryFilter. 3 new UI primitives - Modal, DropdownMenu. Server actions for CRUD operations. Category filtering, optimistic quantity updates, mobile-first design.
         keywords:
           - items
           - ui
@@ -419,8 +419,8 @@ documents:
           - optimistic-updates
       task-18-search:
         path: .waypoint/tasks/mvp/task-18-search.md
-        status: pending
-        summary: Implement global search across all user's groups. Search use case, API route, and UI with debounced input and grouped results.
+        status: complete
+        summary: Global search complete. SearchItemsUseCase with query validation, API route GET /api/search, SearchOverlay with full-screen mobile UI, debounced input, grouped results by group/location, recent searches in localStorage.
         keywords:
           - search
           - use-cases
@@ -428,8 +428,8 @@ documents:
           - ui
       task-19-polish:
         path: .waypoint/tasks/mvp/task-19-polish.md
-        status: pending
-        summary: Add polish - empty states, loading skeletons, error boundaries, toast notifications, PWA install prompt, offline indicator, haptic feedback.
+        status: complete
+        summary: Polish complete. Loading skeletons (GroupCard, LocationCard, ItemRow, FullPageLoader), Error handling (ErrorBoundary, APIError, FormError), PWA components (InstallPrompt, OfflineIndicator, ServiceWorkerUpdate), Toast notifications with variants, Empty states, CSS animations. Hooks for online status, PWA install, and haptic feedback.
         keywords:
           - polish
           - empty-states

@@ -9,6 +9,23 @@ export interface ItemWithCategory {
   category: Category | null
 }
 
+export interface SearchResultItem {
+  id: string
+  name: string
+  emoji: string
+  quantity: number
+  location: {
+    id: string
+    name: string
+    emoji: string
+  }
+  group: {
+    id: string
+    name: string
+    emoji: string
+  }
+}
+
 export interface ItemRepository {
   save(item: Item): Promise<void>
   findById(id: ItemId): Promise<Item | null>
@@ -17,4 +34,6 @@ export interface ItemRepository {
   findByLocationAndName(locationId: LocationId, name: string): Promise<Item | null>
   delete(id: ItemId): Promise<void>
   searchByName(userId: UserId, query: string): Promise<Item[]>
+  searchWithContext(userId: UserId, query: string, limit?: number): Promise<SearchResultItem[]>
 }
+
