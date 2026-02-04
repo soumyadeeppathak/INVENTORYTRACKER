@@ -19,7 +19,7 @@ export function GroupCard({ id, name, emoji, locationCount, itemCount }: GroupCa
           </span>
           <h3 className="text-lg font-semibold text-gray-900 mb-1">{name}</h3>
           <p className="text-sm text-gray-500">
-            {locationCount} {locationCount === 1 ? 'location' : 'locations'} • {itemCount}{' '}
+            {locationCount} {locationCount === 1 ? 'section' : 'sections'} • {itemCount}{' '}
             {itemCount === 1 ? 'item' : 'items'}
           </p>
         </div>

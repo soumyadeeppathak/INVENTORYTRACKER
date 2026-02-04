@@ -73,7 +73,7 @@ export function LocationHeader({
           </div>
         </div>
         <Link href={`/groups/${groupId}/locations/${locationId}/edit`}>
-          <Button variant="ghost" size="sm" aria-label="Edit location">
+          <Button variant="ghost" size="sm" aria-label="Edit section">
             <svg
               className="w-5 h-5"
               fill="none"

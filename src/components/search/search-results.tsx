@@ -8,7 +8,7 @@ interface SearchResultsProps {
     onResultClick?: (result: SearchResultItem) => void
 }
 
-// Group results by group, then by location
+// Group results by group, then by section
 function groupResults(results: SearchResultItem[]) {
     const grouped = new Map<
         string,
@@ -64,10 +64,10 @@ export function SearchResults({ results, onResultClick }: SearchResultsProps) {
                         <h3 className="text-sm font-semibold text-gray-900">{group.name}</h3>
                     </div>
 
-                    {/* Locations within group */}
+                    {/* Sections within group */}
                     {Array.from(locations.values()).map(({ location, items }) => (
                         <div key={location.id} className="ml-6">
-                            {/* Location Subheader */}
+                            {/* Section Subheader */}
                             <div className="flex items-center gap-2 px-4 py-1">
                                 <span className="text-sm" role="img" aria-label={location.name}>
                                     {location.emoji}
@@ -75,7 +75,7 @@ export function SearchResults({ results, onResultClick }: SearchResultsProps) {
                                 <h4 className="text-xs font-medium text-gray-500">{location.name}</h4>
                             </div>
 
-                            {/* Items in location */}
+                            {/* Items in section */}
                             <ul className="ml-4">
                                 {items.map((item) => (
                                     <li key={item.id}>

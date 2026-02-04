@@ -71,7 +71,7 @@ export function EditLocationForm({
 
         <Input
           name="name"
-          label="Location name"
+          label="Section name"
           placeholder="e.g., Kitchen, Bedroom, Garage"
           defaultValue={initialName}
           required
@@ -92,7 +92,7 @@ export function EditLocationForm({
         {showDeleteConfirm ? (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-sm text-red-800 mb-4">
-              This location contains <strong>{itemCount}</strong>{' '}
+              This section contains <strong>{itemCount}</strong>{' '}
               {itemCount === 1 ? 'item' : 'items'}. Deleting it will also delete all items inside.
               This action cannot be undone.
             </p>
@@ -111,7 +111,7 @@ export function EditLocationForm({
                 isLoading={isDeleting}
                 onClick={() => handleDelete(true)}
               >
-                Delete Location & Items
+                Delete Section & Items
               </Button>
             </div>
           </div>
@@ -122,7 +122,7 @@ export function EditLocationForm({
             isLoading={isDeleting}
             onClick={() => handleDelete(false)}
           >
-            Delete Location
+            Delete Section
           </Button>
         )}
       </div>

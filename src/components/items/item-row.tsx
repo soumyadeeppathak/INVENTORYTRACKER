@@ -71,7 +71,7 @@ export function ItemRow({
                     }
                 >
                     <DropdownMenuItem onClick={() => onEdit(id)}>Edit Item</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onMove(id)}>Move to Location</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onMove(id)}>Move to Section</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => onDelete(id)} variant="danger">
                         Delete Item
                     </DropdownMenuItem>

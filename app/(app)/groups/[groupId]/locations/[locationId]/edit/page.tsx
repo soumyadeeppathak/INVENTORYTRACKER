@@ -65,8 +65,8 @@ export default async function EditLocationPage({ params }: EditLocationPageProps
 
         <Card className="max-w-md mx-auto">
           <CardHeader>
-            <h1 className="text-xl font-semibold text-gray-900">Edit Location</h1>
-            <p className="text-sm text-gray-500">Update the location details or delete it.</p>
+            <h1 className="text-xl font-semibold text-gray-900">Edit Section</h1>
+            <p className="text-sm text-gray-500">Update the section details or delete it.</p>
           </CardHeader>
           <CardContent>
             <EditLocationForm

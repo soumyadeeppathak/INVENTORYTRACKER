@@ -41,14 +41,14 @@ export default async function NewLocationPage({ params }: NewLocationPageProps) 
             {group.name}
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">New Location</span>
+          <span className="text-gray-900">New Section</span>
         </nav>
 
         <Card className="max-w-md mx-auto">
           <CardHeader>
-            <h1 className="text-xl font-semibold text-gray-900">Create Location</h1>
+            <h1 className="text-xl font-semibold text-gray-900">Create Section</h1>
             <p className="text-sm text-gray-500">
-              Add a new location to organize your items in {group.name}.
+              Add a new section to organize your items in {group.name}.
             </p>
           </CardHeader>
           <CardContent>

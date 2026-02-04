@@ -5,7 +5,7 @@ export function EmptyItems() {
         <EmptyState
             icon="📦"
             title="No items here yet"
-            description="Use the form below to add items you want to track in this location."
+            description="Use the form below to add items you want to track in this section."
         />
     )
 }

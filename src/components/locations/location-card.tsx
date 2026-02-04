@@ -33,7 +33,7 @@ export function NewLocationCard({ groupId }: { groupId: string }) {
       <Card interactive className="p-4 h-full">
         <div className="flex flex-col items-center justify-center text-center min-h-[140px]">
           <span className="text-4xl mb-3 text-gray-400">➕</span>
-          <h3 className="text-lg font-semibold text-gray-600">New Location</h3>
+          <h3 className="text-lg font-semibold text-gray-600">New Section</h3>
         </div>
       </Card>
     </Link>

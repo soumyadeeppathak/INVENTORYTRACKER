@@ -41,7 +41,7 @@ export function CreateLocationForm({ groupId }: CreateLocationFormProps) {
 
       <Input
         name="name"
-        label="Location name"
+        label="Section name"
         placeholder="e.g., Kitchen, Bedroom, Garage"
         required
         maxLength={255}
@@ -51,7 +51,7 @@ export function CreateLocationForm({ groupId }: CreateLocationFormProps) {
       {error && <p className="text-sm text-red-600 text-center">{error}</p>}
 
       <Button type="submit" isLoading={isLoading} className="w-full">
-        Create Location
+        Create Section
       </Button>
     </form>
   )

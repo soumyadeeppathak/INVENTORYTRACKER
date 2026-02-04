@@ -14,11 +14,11 @@ export function LocationList({ groupId, locations }: LocationListProps) {
     return (
       <EmptyState
         icon="📍"
-        title="No locations yet"
-        description="Add your first location to start tracking items."
+        title="No sections yet"
+        description="Add your first section to start tracking items."
         action={
           <Link href={`/groups/${groupId}/locations/new`}>
-            <Button>Add Location</Button>
+            <Button>Add Section</Button>
           </Link>
         }
       />

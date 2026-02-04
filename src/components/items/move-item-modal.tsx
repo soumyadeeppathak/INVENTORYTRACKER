@@ -55,7 +55,7 @@ export function MoveItemModal({
     return (
         <Modal open={open} onClose={onClose} title={`Move ${itemName}`}>
             <div className="space-y-4">
-                <p className="text-sm text-gray-600">Select a location to move this item to:</p>
+                <p className="text-sm text-gray-600">Select a section to move this item to:</p>
 
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                     {locations.map((location) => {
@@ -80,7 +80,7 @@ export function MoveItemModal({
                                 </span>
                                 <div className="flex-1 text-left">
                                     <h4 className="text-base font-medium text-gray-900">{location.name}</h4>
-                                    {isCurrent && <p className="text-xs text-gray-500">Current location</p>}
+                                    {isCurrent && <p className="text-xs text-gray-500">Current section</p>}
                                 </div>
                                 {isSelected && (
                                     <svg className="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">

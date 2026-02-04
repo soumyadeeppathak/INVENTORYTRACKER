@@ -9,12 +9,12 @@ export function EmptyLocations({ onAddClick }: EmptyLocationsProps) {
     return (
         <EmptyState
             icon="📍"
-            title="No locations yet"
-            description="Add locations like 'Kitchen', 'Bedroom', or 'Garage' to organize your items."
+            title="No sections yet"
+            description="Add sections like 'Kitchen', 'Bedroom', or 'Garage' to organize your items."
             action={
                 onAddClick ? (
                     <Button variant="primary" onClick={onAddClick}>
-                        Add Location
+                        Add Section
                     </Button>
                 ) : undefined
             }

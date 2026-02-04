@@ -7,13 +7,6 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -35,6 +28,7 @@ body {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -50,6 +44,7 @@ body {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
@@ -65,6 +60,7 @@ body {
       opacity: 0;
       transform: scale(0.95);
     }
+
     to {
       opacity: 1;
       transform: scale(1);
@@ -76,4 +72,3 @@ body {
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 }
-
